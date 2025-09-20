@@ -63,11 +63,37 @@ const createTodo = (todaData) => {
     });
 };
 
+
+const todosStats = (userId) => {
+  const allPromise = todosService.TodosList({ userId }).countDocuments();
+  const upcomingPromise = todosService.TodosList({ userId, status: 1 }).countDocuments();
+  const completedPromise = todosService.TodosList({ userId, status: 3 }).countDocuments();
+
+  return Promise.all([allPromise, upcomingPromise, completedPromise])
+    .then(([all, upcoming, completed]) => {
+      const stats = [
+        { label: "All Todos", value: all },
+        { label: "Upcoming", value: upcoming },
+        { label: "Completed", value: completed },
+      ];
+      return stats;
+    })
+    .catch((err) => {
+      appUtils.logError({
+        moduleName: "Todos",
+        methodName: "todosStats",
+        err,
+      });
+      throw err;
+    });
+};
+
 //========================== Export Module Start =======================
 module.exports = {
   todosList,
   updateTodo,
   createTodo,
   deleteTodo,
+  todosStats
 };
 //========================== Export Module End =========================

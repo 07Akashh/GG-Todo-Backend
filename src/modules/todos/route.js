@@ -13,6 +13,13 @@ todosRouter.route("/").get([userAuthenticateTkn("all")], (req, res) => {
     .catch((err) => resHndlr.sendError(res, err));
 });
 
+todosRouter.route("/stats").get([userAuthenticateTkn("all")], (req, res) => {
+  todosFacade
+    .todosStats(req.user._id)
+    .then((stats) => resHndlr.sendSuccess(res, {stats}, req))
+    .catch((err) => resHndlr.sendError(res, err));
+});
+
 todosRouter
   .route("/")
   .post([todoValidator.createTodo, userAuthenticateTkn("all")], (req, res) => {
