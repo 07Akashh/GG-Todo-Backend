@@ -65,9 +65,9 @@ const createTodo = (todaData) => {
 
 
 const todosStats = (userId) => {
-  const allPromise = todosService.TodosList({ userId }).countDocuments();
-  const upcomingPromise = todosService.TodosList({ userId, status: 1 }).countDocuments();
-  const completedPromise = todosService.TodosList({ userId, status: 3 }).countDocuments();
+  const allPromise = todosService.TodosList({ userId }, true).countDocuments();
+  const upcomingPromise = todosService.TodosList({ userId, status: 1 }, true).countDocuments();
+  const completedPromise = todosService.TodosList({ userId, status: 3 }, true).countDocuments();
 
   return Promise.all([allPromise, upcomingPromise, completedPromise])
     .then(([all, upcoming, completed]) => {
