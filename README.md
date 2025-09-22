@@ -68,3 +68,4 @@ Run the test suite:
 npm test                # Run all tests
 npm run test:watch      # Watch mode
 npm run test:coverage   # Coverage report
+;;;;
