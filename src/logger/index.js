@@ -15,21 +15,50 @@ const TAG = {
 var errLog = _debug(TAG.ERROR);
 
 var initialize = _.once(function () {
-    if (process.env.NODE_ENV === 'prod') {
-        var bunyanDebugStream = require('bunyan-debug-stream');
-        streams = [{
-                level: 'error',
-                type: 'raw',
-                stream: bunyanDebugStream({
-                    basepath: __dirname + '/..' // this should be the root folder of your project.
-                })
-            }, {
-                level: 'warn',
-                type: 'raw',
-                stream: bunyanDebugStream({
-                    basepath: __dirname + '/..' // this should be the root folder of your project.
-                })
-            }];
+    if (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'production') {
+        try {
+            var bunyanDebugStream;
+            try {
+                bunyanDebugStream = require('bunyan-debug-stream');
+            } catch (requireError) {
+                console.warn('Failed to require bunyan-debug-stream:', requireError.message);
+                throw requireError;
+            }
+            
+            // bunyan-debug-stream exports a create function or default export
+            var createStream = bunyanDebugStream.create || bunyanDebugStream.default || bunyanDebugStream;
+            
+            if (!createStream || typeof createStream !== 'function') {
+                throw new Error('bunyan-debug-stream.create is not a function. Got: ' + typeof createStream);
+            }
+            
+            var streamOptions = {
+                basepath: __dirname + '/..' // this should be the root folder of your project.
+            };
+            
+            streams = [{
+                    level: 'error',
+                    type: 'raw',
+                    stream: createStream(streamOptions)
+                }, {
+                    level: 'warn',
+                    type: 'raw',
+                    stream: createStream(streamOptions)
+                }];
+        } catch (error) {
+            console.warn('bunyan-debug-stream not available, falling back to file logging:', error.message);
+            // Fallback to file logging if bunyan-debug-stream is not available
+            streams = [{
+                    level: 'error',
+                    path: 'app.log'
+                }, {
+                    level: 'warn',
+                    path: 'app.log'
+                }, {
+                    level: 'info',
+                    path: 'app.log'
+                }];
+        }
     } else {
         streams = [{
                 level: 'error',

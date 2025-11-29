@@ -15,8 +15,18 @@ module.exports = {
     mongo: {
         dbName: process.env.mongodbName,
         userName: process.env.mongouserName,
-        Pass: encodeURIComponent(process.env.mongopass),
+        Pass: process.env.mongopass,
         dbUrl: (userName, pass, db) => `mongodb+srv://${userName}:${pass}@cluster0.kp9bxqv.mongodb.net/${db}?retryWrites=true&w=majority`,
+        options: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            maxPoolSize: 10,
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+            bufferCommands: false,
+            connectTimeoutMS: 10000,
+            retryWrites: true,
+        }
     },
 
     redis: {
