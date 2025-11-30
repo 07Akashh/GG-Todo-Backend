@@ -88,12 +88,39 @@ const todosStats = (userId) => {
     });
 };
 
+/**
+ * Map status to color
+ * Status: 1=pending, 2=in-progress, 3=completed, 4=archived
+ * Colors: Green (completed), Yellow (in-progress), Red (pending), Dark Red (archived)
+ */
+
+const todosStatsByDate = (info) => {
+  return todosService
+    .TodosList(info, true)
+    .countDocuments()
+    .then((total) => {
+      this.total = total;
+      let list = todosService.TodosList(info, true);
+      return appUtils.sorting(list, info);
+    })
+    .then((todos) => ({ total: this.total, todos }))
+    .catch((err) => {
+      appUtils.logError({
+        moduleName: "Todos",
+        methodName: "todosStatsByDate",
+        err,
+      });
+      throw err;
+    });
+};
+
 //========================== Export Module Start =======================
 module.exports = {
   todosList,
   updateTodo,
   createTodo,
   deleteTodo,
-  todosStats
+  todosStats,
+  todosStatsByDate,
 };
 //========================== Export Module End =========================

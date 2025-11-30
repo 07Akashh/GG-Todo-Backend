@@ -20,6 +20,16 @@ todosRouter.route("/stats").get([userAuthenticateTkn("all")], (req, res) => {
     .catch((err) => resHndlr.sendError(res, err));
 });
 
+todosRouter.route("/calendar").get([userAuthenticateTkn("all")], (req, res) => {
+  const info = {
+    userId: req.user._id,
+  };
+  todosFacade
+    .todosStatsByDate(info)
+    .then((result) => resHndlr.sendSuccess(res, result, req))
+    .catch((err) => resHndlr.sendError(res, err));
+});
+
 todosRouter
   .route("/")
   .post([todoValidator.createTodo, userAuthenticateTkn("all")], (req, res) => {

@@ -17,6 +17,17 @@ const todoValidationSchema = Joi.object({
     "any.required": "Description is required",
   }),
 
+  priority: Joi.number().integer().valid(1, 2, 3, 4).optional().messages({
+    "number.base": "Priority must be a number",
+    "number.integer": "Priority must be an integer",
+    "any.only": "Priority must be between 1 and 4",
+  }),
+
+  labels: Joi.array().items(Joi.string()).optional().messages({
+    "array.base": "Labels must be an array",
+    "array.items": "Labels must be an array of strings",
+  }),
+
   dueDate: Joi.date().required().messages({
     "date.base": "Due date must be a valid date",
     "any.required": "Due date is required",
@@ -38,6 +49,11 @@ const todoUpdateValidationSchema = Joi.object({
 
   dueDate: Joi.date().optional().messages({
     "date.base": "Due date must be a valid date",
+  }),
+
+  labels: Joi.array().items(Joi.string()).optional().messages({
+    "array.base": "Labels must be an array",
+    "array.items": "Labels must be an array of strings",
   }),
 
   status: Joi.number().integer().valid(1, 2, 3, 4).optional().messages({

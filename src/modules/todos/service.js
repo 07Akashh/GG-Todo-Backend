@@ -26,6 +26,11 @@ const TodosList = (info, all = false) => {
       userId: 1,
       status: 1,
       dueDate: 1,
+      labels: 1,
+      priority: 1,
+      updatedAt: 1,
+      createdAt: 1,
+      completedAt: 1,
     },
     paginate = {};
 

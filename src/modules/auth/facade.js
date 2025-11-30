@@ -45,7 +45,19 @@ const _setRedisWithRes = (jwt, info, type) => {
 const registerUser = (userData) => {
   const { email, password, name, avatar, role, firebaseUid } = userData;
 
-  return Promise.resolve(getFirebaseAuth())
+  // Check if user already exists in database
+  const checkUserQuery = firebaseUid 
+    ? { $or: [{ email }, { firebaseUid }] }
+    : { email };
+
+  return userService.getOne(checkUserQuery)
+    .then((existingUser) => {
+      if (existingUser) {
+        throw custExc.completeCustomException("user_already_exists");
+      }
+
+      return Promise.resolve(getFirebaseAuth());
+    })
     .then((firebaseAuth) => {
       if (firebaseUid) {
         return {
