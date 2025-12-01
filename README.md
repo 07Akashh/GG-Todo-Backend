@@ -15,31 +15,31 @@ A production-ready Node.js backend with Firebase authentication, MongoDB integra
 ## Quick Start
 
 1. **Install dependencies**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 2. **Environment setup**
-   \`\`\`bash
+   ```bash
    cp .env.example .env
    # Edit .env with your configuration
-   \`\`\`
+   ```
 
 3. **Start development server**
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
 4. **Run tests**
-   \`\`\`bash
+   ```bash
    npm test
-   \`\`\`
+   ```
 
 ## Architecture
 
 This project follows a facade pattern architecture:
 
-\`\`\`
+```
 src/
 ├── config/          # Configuration files
 ├── modules/         # API Modules
@@ -49,7 +49,7 @@ src/
 ├── services/        # External service integrations
 ├── utils/           # Utility functions
 └── tests/           # Test files
-\`\`\`
+```
 
 ## API Endpoints
 
@@ -64,8 +64,8 @@ See `.env.example` for required environment variables.
 ## Testing
 
 Run the test suite:
-\`\`\`bash
+```bash
 npm test                # Run all tests
 npm run test:watch      # Watch mode
 npm run test:coverage   # Coverage report
-;;;;
+```
