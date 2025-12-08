@@ -68,3 +68,4 @@ build/
 
 # Test files
 test-results/
+my-project-firebase-adminsdk.json
