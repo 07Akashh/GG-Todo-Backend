@@ -4,6 +4,7 @@ const express = require("express"),
     helmet = require('helmet'),
     cookieParser = require('cookie-parser'),
     cors = require('cors'),
+    swaggerDocument = require("../services/swagger.json"),
     swaggerUi = require('swagger-ui-express');
 const auth = require("basic-auth");
 
@@ -42,7 +43,7 @@ module.exports = function (app, _env) {
             validatorUrl: null
         }
     }
-    // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
     app.use("/images", express.static(app.locals.rootDir + "/public/images"));
     app.use("/uploads", express.static(app.locals.rootDir + "/uploads"));
     app.use("/pages", express.static(app.locals.rootDir + "/public/view"));
