@@ -40,6 +40,7 @@ A modern, scalable Node.js backend for the GG TODO task management application. 
    ```
 
 # Start development server
+```
 npm run dev
 ```
 
